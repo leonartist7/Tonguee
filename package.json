@@ -10,7 +10,11 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "node e2e/run.mjs"
+    "test:e2e": "node e2e/run.mjs",
+    "aro:preflight": "node tools/codex/preflight.mjs",
+    "aro:verify:quick": "node tools/codex/verify.mjs --quick",
+    "aro:verify": "node tools/codex/verify.mjs",
+    "aro:evidence": "node tools/codex/capture-evidence.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.81.1",

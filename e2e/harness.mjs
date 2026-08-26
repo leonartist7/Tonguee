@@ -1,16 +1,19 @@
+import { existsSync } from 'node:fs';
 import { chromium } from 'playwright';
 
 export const BASE = process.env.E2E_BASE ?? 'http://localhost:5173';
 
 /**
- * Chromium is preinstalled in this environment at a fixed path; fall back to
- * Playwright's own resolution anywhere else.
+ * Prefer an explicitly configured Chromium binary, then the fixed browser used
+ * in the hosted test environment, and finally Playwright's normal local browser
+ * resolution. The final fallback is important for Codex/Windows/macOS/Linux
+ * development machines where the hosted path does not exist.
  */
 const launchOptions = () => {
+  if (process.env.E2E_CHROME) return { executablePath: process.env.E2E_CHROME };
+
   const preinstalled = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-  return process.env.E2E_CHROME
-    ? { executablePath: process.env.E2E_CHROME }
-    : { executablePath: preinstalled };
+  return existsSync(preinstalled) ? { executablePath: preinstalled } : {};
 };
 
 export const launch = () => chromium.launch(launchOptions());

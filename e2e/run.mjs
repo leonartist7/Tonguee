@@ -1,4 +1,4 @@
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { BASE } from './harness.mjs';
 import journeys from './journeys.mjs';
@@ -12,6 +12,9 @@ import darkMode from './darkmode.mjs';
  * Starts one itself unless something is already listening on BASE, so the
  * suite works both locally (server already up) and in CI (cold).
  */
+
+const baseUrl = new URL(BASE);
+const localHosts = new Set(['localhost', '127.0.0.1', '::1']);
 
 const isUp = async () => {
   try {
@@ -30,17 +33,54 @@ const waitForServer = async (attempts = 40) => {
   return false;
 };
 
+const stopServer = (child) => {
+  if (!child?.pid) return;
+
+  try {
+    if (process.platform === 'win32') {
+      spawnSync('taskkill', ['/pid', String(child.pid), '/T', '/F'], { stdio: 'ignore' });
+    } else {
+      process.kill(-child.pid, 'SIGTERM');
+    }
+  } catch {
+    try {
+      child.kill('SIGTERM');
+    } catch {
+      // Already gone.
+    }
+  }
+};
+
+const startLocalDevServer = () => {
+  if (baseUrl.protocol !== 'http:' || !localHosts.has(baseUrl.hostname)) {
+    throw new Error(
+      `E2E_BASE ${BASE} is unavailable. Auto-start is only supported for local HTTP URLs; start the configured server before running the suite.`
+    );
+  }
+
+  const port = baseUrl.port || '80';
+  const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+  return spawn(
+    npm,
+    ['run', 'dev', '--', '--host', baseUrl.hostname, '--port', port, '--strictPort'],
+    {
+      stdio: 'ignore',
+      detached: process.platform !== 'win32',
+    }
+  );
+};
+
 let server = null;
 
 if (await isUp()) {
   console.log(`Using the dev server already running at ${BASE}`);
 } else {
   console.log(`Starting a dev server for ${BASE}`);
-  server = spawn('npm', ['run', 'dev'], { stdio: 'ignore', detached: true });
+  server = startLocalDevServer();
 
   if (!(await waitForServer())) {
     console.error(`Dev server never came up at ${BASE}`);
-    if (server) process.kill(-server.pid, 'SIGTERM');
+    stopServer(server);
     process.exit(1);
   }
 }
@@ -69,13 +109,7 @@ try {
     }
   }
 } finally {
-  if (server) {
-    try {
-      process.kill(-server.pid, 'SIGTERM');
-    } catch {
-      /* already gone */
-    }
-  }
+  stopServer(server);
 }
 
 console.log(`\n${'='.repeat(48)}`);

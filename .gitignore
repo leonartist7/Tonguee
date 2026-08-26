@@ -34,3 +34,6 @@ graphify-out/
 .obsidian/workspace-mobile.json
 .obsidian/cache/
 .trash/
+
+# Codex/agent verification evidence — local attachments, not repository source
+artifacts/codex-evidence/
