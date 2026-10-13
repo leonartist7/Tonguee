@@ -113,9 +113,9 @@ The founder confirmed that the historical environment file contained only browse
 
 ### Active next gate — ARO-P1 execution baseline
 
-**State:** SPEC-READY; runtime not yet IN-PROGRESS
+**State:** BLOCKED; runtime not yet IN-PROGRESS
 
-The P1 private data/RLS/retention specification and read-only discovery report are complete. Before runtime work begins, capture the exact pre-code Git, test, build, visual, accessibility, performance and Supabase evidence required by `specs/ARO-P1-BASELINE.md`. Infrastructure identifiers, manual founder checks and the quarantined `aro-platform` project are governed by `ARO_INFRASTRUCTURE.md`.
+The P1 private data/RLS/retention specification and the execution baseline are recorded in `specs/ARO-P1-BASELINE.md`. The baseline passed unit tests and production build, but it found legacy lint failures, a Windows E2E runner failure, an unauthenticated blank local app because SEC0 correctly removed local credentials, and no safe Supabase development branch. P1 runtime work cannot begin until an approved safe migration branch exists and the missing authenticated visual/a11y and Trust regressions can be captured. Infrastructure identifiers, manual founder checks and the quarantined `aro-platform` project are governed by `ARO_INFRASTRUCTURE.md`.
 
 ---
 
@@ -124,7 +124,7 @@ The P1 private data/RLS/retention specification and read-only discovery report a
 Current governed sequence:
 
 1. **SEC0** — secret hygiene (**VERIFIED**).
-2. **P1** — Capability + Goal foundation (**SPEC-READY; next: pre-code execution baseline**).
+2. **P1** — Capability + Goal foundation (**SPEC-READY; execution baseline BLOCKED**).
 3. **P2** — Explicit Intent + privacy-preserving Demand Signals.
 4. **P3** — ARO Catalyst / language Opportunity Suggestions.
 5. **P4** — Commitment + minimum viability + booking/payment mechanics.

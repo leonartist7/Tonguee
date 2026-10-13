@@ -285,6 +285,29 @@ This is a Git ancestry difference, not missing runtime or documentation content.
 
 ---
 
+## 2026-08-26 — P1 execution baseline captured; implementation blocked
+
+### Evidence captured
+
+- Confirmed `leonartist7/Tonguee`, `main` at `ce291193`, the governed ARO branch at `9394cb7`, and SEC0 as VERIFIED.
+- `npm test` passed (61 tests); production build passed in 17.57 s with a 228.76 kB gzip main JavaScript chunk.
+- The live read-only Tonguee Supabase audit reconfirmed that legacy `profiles` is publicly readable and cannot hold P1 private data; dedicated owner-private P1 tables remain mandatory.
+- `aro-platform` remained quarantined and untouched. No key rotation, history rewrite, Vercel change, production schema change, Stripe, or Google scope was introduced.
+
+### Blockers
+
+- Legacy lint baseline has 23 errors and 9 warnings.
+- The Windows E2E runner fails before journeys with `spawn npm ENOENT`.
+- SEC0 correctly leaves no local credentials, so the local app renders blank with missing Supabase variables; authenticated mobile/desktop/light/dark and meaningful accessibility evidence remains unavailable.
+- The canonical Supabase project has no development branches. A safe branch costs USD 0.01344/hour and needs founder confirmation; production experiments are prohibited.
+
+### Status transition
+
+- ARO-P1: **SPEC-READY → SPEC-READY / BLOCKED**.
+- Runtime implementation did not start. `specs/ARO-P1-BASELINE.md`, `ARO_CURRENT_STATE.md`, `ARO_IMPLEMENTATION_STATUS.md`, and `ARO_SPEC_INDEX.md` record the evidence and required next gate.
+
+---
+
 ## Changelog rule
 
 For future entries include, when relevant:

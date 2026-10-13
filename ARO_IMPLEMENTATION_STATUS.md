@@ -28,7 +28,7 @@ The existing Tonguee product provides a significant working vertical foundation.
 
 **ARO-P1 — Capability and Goal Foundation**
 
-P1 is **SPEC-READY** and is not yet IN-PROGRESS. `specs/ARO-P1-CAPABILITY-GOAL.md` locks the private data, RLS, retention, UX and verification contract. `specs/ARO-P1-BASELINE.md` records discovery and defines the remaining pre-code test, accessibility, performance, visual and migration-environment evidence. `ARO_INFRASTRUCTURE.md` records the canonical GitHub/Vercel/Supabase targets, the quarantined secondary project, and human-only provider TODOs.
+P1 is **SPEC-READY** and is not yet IN-PROGRESS. The execution baseline is recorded in `specs/ARO-P1-BASELINE.md` and is currently **BLOCKED**: legacy lint errors, a Windows E2E harness `spawn npm ENOENT` failure, unavailable authenticated visual/a11y evidence without local credentials, and no approved safe Supabase development branch. `ARO_INFRASTRUCTURE.md` records the canonical GitHub/Vercel/Supabase targets, the quarantined secondary project, and human-only provider TODOs.
 
 ---
 
@@ -57,7 +57,7 @@ P1 is **SPEC-READY** and is not yet IN-PROGRESS. `specs/ARO-P1-CAPABILITY-GOAL.m
 | P0 — Director reset | **VERIFIED** | ARO-first operating authority and migration direction | `ARO_P0_AUDIT.md` | none |
 | P0.1 — Director Pack completion | **VERIFIED** | design, trust/safety, money, growth, Shipathon, decisions, executable playbook | governance-only scope preserved | none |
 | SEC0 — secret hygiene | **VERIFIED** after finalization PR merge | branch `agent/aro-sec0-finalize`; `.env` removed; ignore rules hardened; founder decision recorded | `ARO_SEC0_REPORT.md` | keep deployment/local configuration outside Git |
-| P1 — capability + goal foundation | **SPEC-REQUIRED** | package definition in build playbook | no runtime implementation yet under ARO package | write/approve package spec and capture baselines |
+| P1 — capability + goal foundation | **SPEC-READY / BLOCKED** | approved spec plus execution evidence in `specs/ARO-P1-BASELINE.md` | no runtime implementation; 61 unit tests pass and build passes, but migration/visual/E2E gates remain blocked | approve a safe Supabase branch; provide non-secret authenticated preview/test access; repair or authorize a scoped fix for baseline runners |
 | P2 — explicit intent + demand signal | **SPEC-REQUIRED** | package definition and privacy principles | no ARO implementation | P1 verified; approve intent/aggregation/RLS spec |
 | P3 — language opportunity suggestion | **SPEC-REQUIRED** | Catalyst/Opportunity Engine boundaries | no ARO implementation | P2 verified; AI/evaluation/Trust package spec |
 | P4 — commitment + booking | **SPEC-REQUIRED** | commitment and money boundaries | existing Tonguee bookings are foundation, not P4 completion | P3 verified; approve state/money/concurrency spec |
