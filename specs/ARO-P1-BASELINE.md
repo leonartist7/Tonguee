@@ -1,6 +1,6 @@
 # ARO-P1 — Baseline Discovery Report
 
-> **Status:** DISCOVERY COMPLETE; EXECUTION BASELINE PENDING  
+> **Status:** EXECUTION BASELINE CAPTURED; P1 IMPLEMENTATION BLOCKED
 > **Date:** 2026-08-26  
 > **Scope:** read-only repository and connected Supabase inspection. No runtime, schema, RLS, Vercel or product-feature changes were made.
 
@@ -117,3 +117,48 @@ P1 runtime work stops if:
 ## 7. Current conclusion
 
 The product/data direction is sufficiently resolved for the package specification to be SPEC-READY. Runtime implementation is not yet authorized. The exact next step is the pre-code execution baseline described above, followed by one scoped ARO-P1 implementation branch and PR.
+
+---
+
+## 8. Execution evidence — 2026-08-26
+
+### Exact base and scope
+
+- Repository and remote: `leonartist7/Tonguee` / `origin` confirmed.
+- Production branch: `main` at `ce29119386df32e8571403c2cf0189680d92a8a8`; unchanged.
+- Governed integration branch: `feat/aro-p0-director-reset` at `9394cb7b5663bd34782ff9c56a803d9995570348`; confirmed clean before the documentation-only baseline record.
+- `9394cb7` is `docs(aro): record verified main and ARO branch topology`.
+- `aro-platform` (`jjgccfrwjkwknyjtbtxa`) was not queried, changed, paused, deleted, or repurposed.
+
+### Repository quality and performance baseline
+
+| Check | Result | Evidence / consequence |
+|---|---|---|
+| `npm test` | PASS | 2 files, 61 tests; Vitest completed in 3.93 s. |
+| `npm run lint` | FAIL (pre-existing baseline) | 23 errors and 9 warnings across legacy files; no P1 code was introduced. |
+| `npm run build` | PASS | 2,600 modules; 17.57 s. Main JS chunk is 747.01 kB / 228.76 kB gzip; Vite reports it exceeds its 500 kB minified warning threshold. |
+| `npm run test:e2e` | BLOCKED (host harness) | The checked-in runner starts `npm` by bare executable name and on this Windows host fails with `spawn npm ENOENT` before journey execution. |
+
+### Visual and accessibility baseline
+
+- A local development server responded with HTTP 200.
+- With no local `.env` (correctly absent after SEC0), the app throws `Missing Supabase environment variables` from `src/lib/supabase.js` and renders a blank page. The local visual baseline therefore cannot produce the required authenticated profile/onboarding light/dark or 360px/1440px evidence.
+- No credentials were copied into the repository or browser. Keyboard and screen-reader semantics could not be meaningfully tested on the blank error state.
+
+### Live Tonguee Supabase Trust/RLS snapshot
+
+- Canonical project ref `ybhecubqnhukgpvchjay` was inspected read-only. The eight known `public` tables remain RLS-enabled.
+- `profiles` remains publicly readable and contains identity plus learning/gamification fields; it is not a P1 private-data target.
+- `anon` and `authenticated` retain broad table grants, relying on RLS as the row boundary. This validates the P1 requirement for explicit grants and owner-only policies on dedicated private tables.
+- Security/performance advisor output still reports legacy policy/search-path/API-exposure concerns, including duplicate permissive legacy profile policies. These are baseline findings, not authorization to alter legacy Trust controls inside P1.
+- The repository Trust SQL defines verified-and-active teacher publication enforcement, but this baseline has not been able to prove its live installation or execute its required multi-identity regression without a safe test environment.
+
+### Safe migration environment
+
+- The canonical project has no Supabase development branches.
+- The connected live schema reports no migrations through the connector despite existing tables.
+- Creating a Supabase development branch is available, but costs USD 0.01344/hour in `lionovart's Org` and requires founder cost confirmation. No production schema experiment is authorized.
+
+### Gate decision
+
+**P1 implementation does not start.** The baseline is recorded, but the gate is blocked by: (1) no approved safe migration branch, (2) unavailable authenticated visual/a11y evidence, (3) E2E harness failure, and (4) existing lint failure. No runtime, schema, RLS, provider, Vercel, Stripe, Google, or production change was made.
